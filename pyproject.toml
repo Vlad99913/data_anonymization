@@ -1,0 +1,54 @@
+[project]
+name = "anonymization"
+version = "0.2.0"
+requires-python = ">=3.12"
+dependencies = [
+  "presidio-analyzer[transformers,gliner]>=2.2.364,<2.3",
+  "presidio-anonymizer>=2.2.364,<2.3",
+  "spacy>=3.8,<3.9",
+  "en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+  "en_core_web_lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl",
+  "en_core_web_trf @ https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl",
+  "pandas>=3.0.6",
+  "tabulate>=0.10.0",
+  "pydantic>=2",
+  "fastapi>=0.141.1",
+  "uvicorn[standard]>=0.29",
+  "streamlit>=1.64.0",
+]
+
+[project.scripts]
+anonymize = "anonymization.cli:main"
+anonymization-benchmark = "anonymization.benchmark:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/anonymization"]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pandas-stubs>=3.0.5",
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+files = ["src", "tests"]
+python_version = "3.12"
+warn_unused_ignores = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
